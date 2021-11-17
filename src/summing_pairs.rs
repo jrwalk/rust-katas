@@ -1,5 +1,5 @@
 #[allow(dead_code)]
-fn summing_pairs(input_list: Vec<u32>) -> Vec<(u32, u32)> {
+fn summing_pairs(input_list: Vec<usize>) -> Vec<(usize, usize)> {
     /*
     Given an unsorted list of integers on [1,99], write a function that emits
     each pair (drawn without replacement) that sums to 100.
@@ -15,17 +15,17 @@ fn summing_pairs(input_list: Vec<u32>) -> Vec<(u32, u32)> {
     bounded range for the input numbers to store counts in a much smaller
     memory footprint.
     */
-    let mut pairs: Vec<(u32, u32)> = Vec::new();
+    let mut pairs: Vec<(usize, usize)> = Vec::new();
     let mut counts = [0; 99];
 
     for num in input_list {
         let target = 100 - num;
-        let count = counts[(target - 1) as usize];
+        let count = counts[target - 1];
         if count > 0 {
             pairs.push((target, num));
-            counts[(target - 1) as usize] -= 1;
+            counts[target - 1] -= 1;
         } else {
-            counts[(num - 1) as usize] += 1;
+            counts[num - 1] += 1;
         }
     }
 
