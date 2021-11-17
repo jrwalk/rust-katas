@@ -1,3 +1,5 @@
+mod summing_pairs;
+
 fn main() {
-    println!("Hello, world!");
+    println!("let's do some rust katas!");
 }
