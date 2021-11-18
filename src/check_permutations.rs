@@ -78,7 +78,8 @@ mod tests {
         let left = String::from("abba");
         let right = String::from("baab");
         assert!(check_permutations(&left, &right));
-        assert!(check_permutations_2(&left, &right))
+        assert!(check_permutations_2(&left, &right));
+        assert!(check_permutations_2(&right, &left));
     }
 
     #[test]
@@ -87,5 +88,6 @@ mod tests {
         let right = String::from("carcar");
         assert!(!check_permutations(&left, &right));
         assert!(!check_permutations_2(&left, &right));
+        assert!(!check_permutations_2(&right, &left));
     }
 }
