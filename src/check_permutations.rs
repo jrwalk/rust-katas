@@ -53,16 +53,16 @@ fn check_permutations_2(left: &String, right: &String) -> bool {
             Entry::Vacant(count) => return false,
             Entry::Occupied(count) => {
                 let inner = count.into_mut();
-                *inner -= 1;
-                if *inner < 0 {
+                if *inner == 0 {
                     return false;
                 }
+                *inner -= 1;
             }
         }
     }
 
-    for (character, count) in counts {
-        if count != 0 {
+    for count in counts.values() {
+        if *count != 0 {
             return false;
         }
     }
