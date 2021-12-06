@@ -22,27 +22,29 @@ fn check_edit_distance(left: &str, right: &str) -> bool {
     let mut rc = right_chars.next();
 
     loop {
-        match (lc, rc, no_edits) {
-            (None, _, _) | (_, None, _) => return true, // reached end of either string
-            (Some(l), Some(r), _) if l == r => {
-                // matching char
+        match (lc, rc) {
+            (None, _) | (_, None) => return true,
+            (Some(l), Some(r)) => {
                 lc = left_chars.next();
                 rc = right_chars.next();
-            }
-            (Some(_), Some(_), false) => return false, // already seen an edit
-            (Some(l), Some(r), true) => {
-                // insert/delete/substitute
-                no_edits = false;
 
-                lc = left_chars.next();
-                rc = right_chars.next();
-                match (lc, rc) {
-                    (None, _) | (_, None) => continue,
-                    (Some(nl), Some(nr)) => {
-                        if l == nr {
-                            rc = right_chars.next();
-                        } else if r == nl {
-                            lc = left_chars.next();
+                if l == r {
+                    continue;
+                } else {
+                    if !no_edits {
+                        return false;
+                    } else {
+                        no_edits = false;
+                    }
+
+                    match (lc, rc) {
+                        (None, _) | (_, None) => continue,
+                        (Some(nl), Some(nr)) => {
+                            if l == nr {
+                                rc = right_chars.next();
+                            } else if r == nl {
+                                lc = left_chars.next();
+                            }
                         }
                     }
                 }
