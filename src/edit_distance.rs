@@ -23,27 +23,25 @@ fn check_edit_distance(left: &str, right: &str) -> bool {
 
     loop {
         match (lc, rc) {
-            (None, _) | (_, None) => return true,
+            (None, _) | (_, None) => return true, // reached end of either string
             (Some(l), Some(r)) => {
                 lc = left_chars.next();
                 rc = right_chars.next();
 
-                if l == r {
-                    continue;
-                } else {
-                    if !no_edits {
-                        return false;
-                    } else {
+                match (l, r, no_edits) {
+                    (l, r, _) if l == r => continue,
+                    (_, _, false) => return false, // seeing second edit
+                    (l, r, true) => {
                         no_edits = false;
-                    }
-
-                    match (lc, rc) {
-                        (None, _) | (_, None) => continue,
-                        (Some(nl), Some(nr)) => {
-                            if l == nr {
-                                rc = right_chars.next();
-                            } else if r == nl {
-                                lc = left_chars.next();
+                        match (lc, rc) {
+                            (None, _) | (_, None) => continue,
+                            // for insertion/deletion, check next char and move past pair
+                            (Some(nl), Some(nr)) => {
+                                if l == nr {
+                                    rc = right_chars.next();
+                                } else if r == nl {
+                                    lc = left_chars.next();
+                                }
                             }
                         }
                     }
