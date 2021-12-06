@@ -34,17 +34,15 @@ fn check_edit_distance(left: &str, right: &str) -> bool {
                 // insert/delete/substitute
                 no_edits = false;
 
-                let next_l = left_chars.next();
-                let next_r = right_chars.next();
-                match (next_l, next_r) {
+                lc = left_chars.next();
+                rc = right_chars.next();
+                match (lc, rc) {
                     (None, _) | (_, None) => continue,
-                    (Some(next_l), Some(next_r)) => {
-                        if (l == next_r) | (r == next_l) {
-                            lc = left_chars.next();
+                    (Some(nl), Some(nr)) => {
+                        if l == nr {
                             rc = right_chars.next();
-                        } else {
-                            lc = Some(next_l);
-                            rc = Some(next_r);
+                        } else if r == nl {
+                            lc = left_chars.next();
                         }
                     }
                 }
